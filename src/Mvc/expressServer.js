@@ -1,5 +1,6 @@
-import expres from 'express';
+import expres, { response } from 'express';
 import { join } from 'node:path';
+import cookieParser from 'cookie-parser';
 
 const mainServerApp = expres();
 const port = 8080;
@@ -8,6 +9,8 @@ const port = 8080;
 mainServerApp.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`); 
 });
+// Middleware to parse cookies
+mainServerApp.use(cookieParser());
 // Serve static files from the Assests directory - files will be available at root level
 mainServerApp.use(expres.static(join(process.cwd(), 'src', 'Mvc','Assests')));
 // Configure EJS as the view engine
@@ -39,6 +42,40 @@ mainServerApp.get('/mvcEJS/View/:red_id', (req, res) => {
   //res.status(200).render('ejstemplateView', { title: 'EJS Template', message: 'Hello from EJS!' }); // Render the EJS template with data   
 });
 
+// Define a route for POST request handling
+mainServerApp.post('/mvcEJS/View/post', (req, res) => {
+  console.log('Received a POST request at /mvcEJS/View/post');  
+  
+  // Here you can handle the POST request data
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString(); // Convert Buffer to string
+  });
+  req.on('end', () => {
+    console.log('POST data received:', body);
+    const parsedData = JSON.parse(body); // Assuming the body is JSON formatted
+    let id = parsedData.id; // Extract the id from the parsed data
+    let message = parsedData.message; // Extract the message from the parsed data
+    console.log(`ID: ${id}, Message: ${message}`);
+
+    let myCookie;
+    if(req.cookies.myCookie === undefined) {
+      myCookie = [];
+    } 
+    else {  
+      myCookie = JSON.parse(req.cookies.myCookie);
+    } 
+
+    myCookie.push({id: id, message: message}); // Add the new data to the cookie array
+    res.cookie('myCookie', JSON.stringify(myCookie), { maxAge: 900000, httpOnly: true });
+    console.log('Cookie set:', JSON.stringify(myCookie));
+
+    // You can parse the body if needed, e.g., using querystring or JSON.parse
+    res.status(200).json({responseKey:"POST request received successfully"});
+  });
+
+
+});
 
 const ejsData = { 'LookupData':
     [

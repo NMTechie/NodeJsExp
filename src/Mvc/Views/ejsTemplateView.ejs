@@ -2,6 +2,29 @@
     <header>
         <title>Sample Express Server</title>
         <meta charset="UTF-8">
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("btnPost").addEventListener("click", function(event) {
+                    event.preventDefault(); // Prevent default button behavior
+                    let reqBody = JSON.stringify({ 
+                        id: '<%= id %>',
+                        message: '<%= message %>'
+                    }); // Display the request body in an alert
+                    fetch('/mvcEJS/View/post', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: reqBody
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert('Response from server: ' + data.responseKey);
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        </script>
     </header>
     <body>
         <h1>Sample Express Server with : <%= id %></h1>
@@ -10,7 +33,8 @@
         <p style="font-weight: bolder; color: blue;"><%= message%></p>
     <footer>    
         <p>Created by Nilesh</p>
-        <p>Last updated: October 2025</p>       
+        <p>Last updated: October 2025</p>      
+        <button id="btnPost">Exp with Post and Cookie</button>  
     </footer>
 </body>
 </html>
