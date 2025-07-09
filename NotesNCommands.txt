@@ -2,8 +2,10 @@
 ====================================================================================================================
 Notes
 ====================================================================================================================
-2. Express is the ASP.NET backend piece that runs on .net where express runs on node
-1. EJS is the embeded javascript which is kind of equivalent of ASP.NET MVC (the view templating)
+1. Express is the ASP.NET backend piece that runs on .net where express runs on node
+2. EJS is the embeded javascript which is kind of equivalent of ASP.NET MVC (the view templating)
+3. Map and reduce in javascript
+4. Map object
 
 
 **********END****************************************END***************************************END*******************
@@ -14,3 +16,7 @@ Commands
 npm install express
 
 node --watch-path=./src src/express1.js // running node server in watch mode
+
+ node .\nodeCmdLine.js Ian baseline // sending argument to my node app while executing
+
+ node --env-file=myconfig.env .\nodeCmdLine.js // paasing the env file to node which will be read as env var 
