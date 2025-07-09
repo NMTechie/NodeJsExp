@@ -1,6 +1,7 @@
 import expres, { response } from 'express';
 import { join } from 'node:path';
 import cookieParser from 'cookie-parser';
+import { Console } from 'node:console';
 
 const mainServerApp = expres();
 const port = 8080;
@@ -13,6 +14,21 @@ mainServerApp.listen(port, () => {
 mainServerApp.use(cookieParser());
 // Serve static files from the Assests directory - files will be available at root level
 mainServerApp.use(expres.static(join(process.cwd(), 'src', 'Mvc','Assests')));
+
+//creating my custom middleware
+mainServerApp.use((req, res, next) => {
+  console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+  req.AddCustomProp='Custom Property Added'; // Adding a custom property to the request object
+  next(); // Call the next middleware in the stack
+});
+
+// Global error handling middleware
+mainServerApp.use((err, req, res, next) => {
+  console.error('An error occurred:', err.message);
+  res.status(500).send('Internal Server Error');  
+  // not calling next() here, as this is the end of the middleware chain for errors
+});
+
 // Configure EJS as the view engine
 mainServerApp.set('view engine', 'ejs');
 // Set the views directory for EJS templates
@@ -76,6 +92,20 @@ mainServerApp.post('/mvcEJS/View/post', (req, res) => {
 
 
 });
+
+
+// Define route specific middleware
+const routeSpecificMiddleware = function (req, res, next)  {
+  console.log('This is a route-specific middleware created for route /mvcEJS/testMiddleware and it will be executed before the route handler.');
+  next(); // Call the next middleware or route handler
+};
+
+mainServerApp.get('/mvcEJS/testMiddleware',routeSpecificMiddleware, (req, res) => {
+console.log(`My Custom Property: ${req.AddCustomProp}`); // Accessing the custom property added by the middleware
+  res.status(200).send(`My Custom Property: ${req.AddCustomProp}`);
+});
+
+
 
 const ejsData = { 'LookupData':
     [
