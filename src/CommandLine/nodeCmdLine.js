@@ -1,4 +1,4 @@
-/*
+
 console.log(process.argv);
 console.log(`The defult arg list is: ${process.argv}`);
 console.log(`Printing value from env file: ${process.env.USER} and Surname is ${process.env.TEST}`);
@@ -14,7 +14,7 @@ process.on('uncaughtException', (err) => {
     console.error(`There was an uncaught error: ${err}`);
     // process.exit(1); // Uncomment to exit the process after handling the error
 });
-*/
+
 
 // exporting custom modules
 //import flagActions from './nodeCustomModule.js'; // execution strats from here (staic import of modules)
