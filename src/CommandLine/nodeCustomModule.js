@@ -1,6 +1,7 @@
 import os from 'os';
 
 const flagActions = new Map();
+
 flagActions.set('--help', () => {
   console.log('Usage: nodeCustomModule [options]');
   console.log('Options:');
