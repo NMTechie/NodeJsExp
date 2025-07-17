@@ -25,4 +25,15 @@ async function listFiles(dir) {
   }
 }
 
-export default {listFiles};
+async function readFileContent(filePath) {
+  try {
+    const content = await fs.promises.readFile(filePath, 'utf8');
+    return content;
+  } catch (err) {
+    console.error('Error reading file:', err);  
+    throw err; // Re-throw the error for further handling if needed
+  }
+}
+
+
+export default {listFiles,readFileContent};
