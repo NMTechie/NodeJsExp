@@ -16,7 +16,7 @@ Notes
 ====================================================================================================================
 Node Core Module 
 ====================================================================================================================
-
+1. Explanation of type : module and commonjs + few critical basics (https://app.pluralsight.com/ilx/video-courses/40425a85-8721-4ae7-9d4e-8bd4ad6a1878/585e76d4-656c-4de9-b0cb-00868e4de7cf/summary)
 **********END****************************************END***************************************END*******************
 
 ====================================================================================================================
@@ -29,3 +29,5 @@ node --watch-path=./src src/express1.js // running node server in watch mode
  node .\nodeCmdLine.js Ian baseline // sending argument to my node app while executing
 
  node --env-file=myconfig.env .\nodeCmdLine.js // paasing the env file to node which will be read as env var 
+
+ node --test 
