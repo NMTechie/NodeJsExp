@@ -1,5 +1,6 @@
 import filehandlings from './filehandling.js';
 import menuBuilder from './Helper/MeuBuilder.js';
+import dataprocessing from './FileProcessor/dataprocessing.js';
 
 const inputDirectoryPath = process.env.INPUTDIR;
 const outputDirectoryPath = process.env.OUTPUTDIR;
@@ -12,8 +13,11 @@ try {
     //get all files in the input directory
     const filespaths = await filehandlings.listFiles(inputDirectoryPath);
     const selectedFile = await menuBuilder.menuBuilder(filespaths);
-    const fileContent = await filehandlings.readFileContent(selectedFile);
-    console.log(`Content of the selected file (${selectedFile}):\n`, fileContent);
+
+    // not good an entire file content loads in memory
+    //const fileContent = await filehandlings.readFileContent(selectedFile);
+    //console.log(`Content of the selected file (${selectedFile}):\n`, fileContent);
+    await dataprocessing.readCsvLineByLine(selectedFile); // Process the selected file line by line
 
 } catch (error) {
     console.error("Error occured for reason:", error.message);
